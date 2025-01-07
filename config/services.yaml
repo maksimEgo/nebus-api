@@ -1,0 +1,19 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\EventListener\ApiTokenListener:
+        arguments:
+            $apiKey: '%env(API_KEY)%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 10 }
